@@ -1,7 +1,11 @@
+/**
+Program to create a trinary tree, perform node insertion and deletion operations.
+**/
 
-// Creates trinary tree node with given value 
 class TrinaryTreeNode
 {
+    // Creates trinary tree node with given value 
+    
     int val;
     TrinaryTreeNode left;
     TrinaryTreeNode middle;
@@ -16,7 +20,6 @@ class TrinaryTreeNode
 
 class FullTrinaryTree
 {
-
     public TrinaryTreeNode insert(int val, TrinaryTreeNode node)
     {
         // Node insertion function
