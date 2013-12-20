@@ -1,11 +1,12 @@
-//Program to convert given string to long
-
+/**
+Program to convert given string to long
+**/
 
 class ConvertStringToLong
 {
     long convertFunc(String input)
     {
-        //Function which does the conversion of  string to long
+        //Function which converts given string to long
         long output = 0;
         char[] chars = input.toCharArray();
         int count = 0;
