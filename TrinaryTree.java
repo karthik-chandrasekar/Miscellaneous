@@ -19,6 +19,7 @@ class FullTrinaryTree
 
     public TrinaryTreeNode insert(int val, TrinaryTreeNode node)
     {
+        // Node insertion function
         if (node == null)
         {
             node = new TrinaryTreeNode(val);
@@ -40,6 +41,7 @@ class FullTrinaryTree
 
     public int findSuccessor(TrinaryTreeNode node)
     {
+        //Find the successor of the given node
         if (node != null)
         {
             while (node.left != null)
@@ -51,8 +53,8 @@ class FullTrinaryTree
     }
 
     public TrinaryTreeNode delete(int val, TrinaryTreeNode node)
-    
     {
+        // Node deletion function 
         if (node == null)
         {
             throw new RuntimeException();
@@ -74,7 +76,7 @@ class FullTrinaryTree
             
             else if (node.right != null)
             {
-                //find the successor of this node and replace it with it
+                //Find the successor of the node
                 node.val = findSuccessor(node.right);
                 node.right = delete(findSuccessor(node.right), node.right);
             }
@@ -88,8 +90,7 @@ class FullTrinaryTree
 
     public void display(TrinaryTreeNode node)
     {
-        
-
+        //Print the tree node values
         if (node == null)
             return;
         display(node.left);
@@ -112,20 +113,17 @@ public class TrinaryTree
         root = tree.insert(28, root);
         root = tree.insert(8, root); 
         root = tree.insert(23, root);
-        root = tree.insert(23, root);
-        root = tree.insert(8, root);
-
+        root = tree.insert(7, root); 
+        
         //Print tree
-        System.out.println("Displaying tree");
+        System.out.println("Tree before deletion");
         tree.display(root);
-        System.out.println("");
 
         //Deletion
         root = tree.delete(23, root);
 
         //Print tree
-        System.out.println("Displaying tree");
+        System.out.println("Tree after deletion");
         tree.display(root);    
-        System.out.println("");
     }
 }
