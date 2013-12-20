@@ -112,11 +112,13 @@ public class TrinaryTree
         TrinaryTreeNode root = null;
 
         //Insertion
-        root = tree.insert(10, root);
-        root = tree.insert(28, root);
-        root = tree.insert(8, root); 
-        root = tree.insert(23, root);
+        root = tree.insert(5, root);
+        root = tree.insert(4, root);
+        root = tree.insert(9, root); 
+        root = tree.insert(5, root);
         root = tree.insert(7, root); 
+        root = tree.insert(2, root); 
+        root = tree.insert(2, root); 
         
         //Print tree
         System.out.println("Tree before deletion");
@@ -125,7 +127,7 @@ public class TrinaryTree
         //Deletion
         try
         {
-            root = tree.delete(23, root);
+            root = tree.delete(9, root);
         }
         catch (Exception e)
         {
