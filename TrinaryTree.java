@@ -123,8 +123,15 @@ public class TrinaryTree
         tree.display(root);
 
         //Deletion
-        root = tree.delete(23, root);
-
+        try
+        {
+            root = tree.delete(23, root);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: Problem in node deletion");
+        }
+        
         //Print tree
         System.out.println("Tree after deletion");
         tree.display(root);    
