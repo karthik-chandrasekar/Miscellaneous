@@ -1,8 +1,11 @@
+//Program to convert given string to long
+
 
 class ConvertStringToLong
 {
     long convertFunc(String input)
-    { 
+    {
+        //Function which does the conversion of  string to long
         long output = 0;
         char[] chars = input.toCharArray();
         int count = 0;
@@ -16,7 +19,7 @@ class ConvertStringToLong
            }
            else
            {
-                //throw exception
+                throw new RuntimeException();
            } 
            count += 1; 
         }
@@ -24,30 +27,28 @@ class ConvertStringToLong
     }
 }
 
-class TestStringToLong
-{
-    String testCaseOne = "123421";
-    String testCaseTwo = "9231233";
-
-    public void checkStringToLong()
-    {
-        ConvertStringToLong stol = new ConvertStringToLong();
-        //Assert.assertEquals(123, 344);
-        //Assert.assertEquals(323, 443);
-     }
-}
 
 class StringToLong
 {
     public static void main(String[] args)
     {
-        String input;
-        ConvertStringToLong stol = new ConvertStringToLong();
-        input = "4343";
-        System.out.println(stol.convertFunc(input)); 
-        
-        //Testing logic
-        TestStringToLong tstol = new TestStringToLong();
-        tstol.checkStringToLong();
+        String input = "4243";
+        long output = 0;
+
+        try
+        {
+            //Convert given string to long
+            ConvertStringToLong stol = new ConvertStringToLong();
+            output = stol.convertFunc(input);
+            if ( output== Long.valueOf(input).longValue())
+            {
+                System.out.println("Successly converted string to long");
+            }
+        }
+        catch (Exception e)
+        {
+                System.out.println("Warning: Input is not convertible");
+            
+        }
     }
 }
