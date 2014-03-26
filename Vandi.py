@@ -26,51 +26,47 @@ class RotateTire:
         self.outputList.append(tempList)
 
         iterationCount = 0 
-        firstIndex = (startIndex) % self.numberOfTyres
-        secondIndex = (startIndex+self.skipIndex) % self.numberOfTyres
-        self.rotateTyre(firstIndex, secondIndex, spare, iterationCount)
+        fromIndex = (startIndex) % self.numberOfTyres
+        toIndex = (startIndex+self.skipIndex) % self.numberOfTyres
+        self.rotateTyre(fromIndex, toIndex, spare, iterationCount)
         self.displayOutput()
 
-    def rotateTyre(self, firstIndex, secondIndex, spare, iterationCount):
+    def rotateTyre(self, fromIndex, toIndex, spare, iterationCount):
 
         #End condition
-        if iterationCount == self.numberOfTyres:
-            return
+        while iterationCount < self.numberOfTyres:
 
-        #Runs at the beginning of every cycle
-        if  self.checkList[firstIndex] == 0:
-            temp = spare
-            spare = self.tireList[firstIndex]
-            self.tireList[firstIndex] = temp
+            #Runs at the beginning of every cycle
+            if  self.checkList[fromIndex] == 0:
+                temp = spare
+                spare = self.tireList[fromIndex]
+                self.tireList[fromIndex] = temp
+                print "%s - %s" % (spare, self.tireList)
+                self.addOutput(spare, self.tireList)
+            
+            #Executes for every element    
+            temp = self.tireList[toIndex] 
+            self.tireList[toIndex] = spare
+            spare = temp
             print "%s - %s" % (spare, self.tireList)
+            self.checkList[toIndex] = 1
             self.addOutput(spare, self.tireList)
-        
-        #Executes for every element    
-        temp = self.tireList[secondIndex] 
-        self.tireList[secondIndex] = spare
-        spare = temp
-        print "%s - %s" % (spare, self.tireList)
-        self.checkList[secondIndex] = 1
-        self.addOutput(spare, self.tireList)
+     
+            #Clockwise condition
+            if self.shiftDirection == 'C':
+                signDigit = 1
+
+            #Anti-clockwise condition
+            elif self.shiftDirection == 'CC':        
+                signDigit = -1        
  
-        #Clockwise condition
-        if self.shiftDirection == 'C': 
-            firstIndex = (firstIndex+self.skipIndex)%self.numberOfTyres
-            secondIndex = (secondIndex+self.skipIndex)%self.numberOfTyres
-            if(self.checkList[secondIndex] == 1):
-                firstIndex +=1
-                secondIndex +=1  
+            fromIndex = (fromIndex+self.skipIndex * signDigit)%self.numberOfTyres
+            toIndex = (toIndex+self.skipIndex * signDigit)%self.numberOfTyres
+            if(self.checkList[toIndex] == 1):
+                fromIndex = fromIndex + 1 * signDigit
+                toIndex = toIndex + 1 * signDigit 
 
-        #Anti-clockwise condition
-        elif self.shiftDirection == 'CC':        
-            firstIndex = (firstIndex-self.skipIndex)%self.numberOfTyres
-            secondIndex = (secondIndex-self.skipIndex)%self.numberOfTyres
-            if(self.checkList[secondIndex] == 1):
-                firstIndex -=1
-                secondIndex -=1  
-
-        iterationCount += 1
-        self.rotateTyre(firstIndex, secondIndex, spare,  iterationCount)
+            iterationCount += 1
    
     def addOutput(self, spare, tyreList):
         tempList = [spare]
