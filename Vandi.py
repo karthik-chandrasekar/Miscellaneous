@@ -1,10 +1,10 @@
 import sys
 
 class RotateTire:
-    def __init__(self, numberOfTyres, skipDirection, skipIndex):
+    def __init__(self, numberOfTyres, shiftDirection, skipIndex):
 
         self.numberOfTyres = numberOfTyres
-        self.skipDirection = skipDirection
+        self.shiftDirection = shiftDirection
         self.skipIndex = skipIndex
         self.outputList = []
 
@@ -16,73 +16,70 @@ class RotateTire:
         self.skipIndex = self.skipIndex + 1
 
         #Lists
-        tireList = range(self.numberOfTyres)
-        checkList = [0] * self.numberOfTyres
+        self.tireList = range(self.numberOfTyres)
+        self.checkList = [0] * self.numberOfTyres
         
-        print "%s - %s" % (spare, tireList)
+        print "%s - %s" % (spare, self.tireList)
         
         tempList = [spare]
-        tempList.extend(tireList)
+        tempList.extend(self.tireList)
         self.outputList.append(tempList)
 
         iterationCount = 0 
         firstIndex = (startIndex) % self.numberOfTyres
         secondIndex = (startIndex+self.skipIndex) % self.numberOfTyres
-        self.rotateTyre(firstIndex, secondIndex, spare, tireList, checkList, iterationCount)
+        self.rotateTyre(firstIndex, secondIndex, spare, iterationCount)
         self.displayOutput()
 
-    def rotateTyre(self, firstIndex, secondIndex, spare, tireList, checkList, iterationCount):
+    def rotateTyre(self, firstIndex, secondIndex, spare, iterationCount):
 
         #End condition
         if iterationCount == self.numberOfTyres:
             return
 
-        if  checkList[firstIndex] == 0:
+        #Runs at the beginning of every cycle
+        if  self.checkList[firstIndex] == 0:
             temp = spare
-            spare = tireList[firstIndex]
-            tireList[firstIndex] = temp
-            print "%s - %s" % (spare, tireList)
-
-            tempList = [spare]
-            tempList.extend(tireList)
-            self.outputList.append(tempList)
-            
-
-        temp = tireList[secondIndex] 
-        tireList[secondIndex] = spare
+            spare = self.tireList[firstIndex]
+            self.tireList[firstIndex] = temp
+            print "%s - %s" % (spare, self.tireList)
+            self.addOutput(spare, self.tireList)
+        
+        #Executes for every element    
+        temp = self.tireList[secondIndex] 
+        self.tireList[secondIndex] = spare
         spare = temp
-        print "%s - %s" % (spare, tireList)
-        checkList[secondIndex] = 1
-
-        tempList = [spare]
-        tempList.extend(tireList)
-        self.outputList.append(tempList)
-  
+        print "%s - %s" % (spare, self.tireList)
+        self.checkList[secondIndex] = 1
+        self.addOutput(spare, self.tireList)
  
-        #Clockwise
-        if self.skipDirection == 'C': 
+        #Clockwise condition
+        if self.shiftDirection == 'C': 
             firstIndex = (firstIndex+self.skipIndex)%self.numberOfTyres
             secondIndex = (secondIndex+self.skipIndex)%self.numberOfTyres
-            if(checkList[secondIndex] == 1):
+            if(self.checkList[secondIndex] == 1):
                 firstIndex +=1
                 secondIndex +=1  
 
-        #Anti clockwise
-        elif self.skipDirection == 'CC':        
+        #Anti-clockwise condition
+        elif self.shiftDirection == 'CC':        
             firstIndex = (firstIndex-self.skipIndex)%self.numberOfTyres
             secondIndex = (secondIndex-self.skipIndex)%self.numberOfTyres
-            if(checkList[secondIndex] == 1):
+            if(self.checkList[secondIndex] == 1):
                 firstIndex -=1
                 secondIndex -=1  
 
-
         iterationCount += 1
-        self.rotateTyre(firstIndex, secondIndex, spare, tireList, checkList,  iterationCount)
-    
+        self.rotateTyre(firstIndex, secondIndex, spare,  iterationCount)
+   
+    def addOutput(self, spare, tyreList):
+        tempList = [spare]
+        tempList.extend(self.tireList)
+        self.outputList.append(tempList)
+        
 
     def displayOutput(self):
         
-
         for index, tyresList in enumerate(self.outputList):
             subList = []
             subList.append(self.formatString(tyresList[0]))
@@ -97,7 +94,7 @@ class RotateTire:
         if tyre == 'S':
             tyre = 'Spare'
         else:
-            tyre = 'Time#%s' % (tyre)
+            tyre = 'Tire#%s' % (tyre)
         return tyre
  
 
