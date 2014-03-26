@@ -31,7 +31,6 @@ class RotateTyre:
         iterationCount = 0 
         startIndex = 0 
         spare = 'S'
-        print "%s - %s" % (spare, self.tyreList)
         self.addOutput(spare)
 
         #Clockwise direction condition
@@ -57,14 +56,12 @@ class RotateTyre:
                 temp = spare
                 spare = self.tyreList[fromIndex]
                 self.tyreList[fromIndex] = temp
-                print "%s - %s" % (spare, self.tyreList)
                 self.addOutput(spare)
             
             #Executes for every element    
             temp = self.tyreList[toIndex] 
             self.tyreList[toIndex] = spare
             spare = temp
-            print "%s - %s" % (spare, self.tyreList)
             self.checkList[toIndex] = 1
             self.addOutput(spare)
      
