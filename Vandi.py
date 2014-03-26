@@ -1,6 +1,6 @@
 import sys, logging
 
-class RotateTire:
+class RotateTyre:
     def __init__(self, numberOfTyres, shiftDirection, skipIndex):
 
         #Input parameters
@@ -10,12 +10,12 @@ class RotateTire:
 
         #Lists
         self.outputList = []
-        self.tireList = range(self.numberOfTyres)
+        self.tyreList = range(self.numberOfTyres)
         self.checkList = [0] * self.numberOfTyres
 
         #File
         self.logging = None
-        self.logger_file = "TireRotation.log"
+        self.logger_file = "TyreRotation.log"
 
     def initialize_logger(self):
         logging.basicConfig(filename=self.logger_file, level=logging.INFO)
@@ -31,11 +31,20 @@ class RotateTire:
         iterationCount = 0 
         startIndex = 0 
         spare = 'S'
-        print "%s - %s" % (spare, self.tireList)
+        print "%s - %s" % (spare, self.tyreList)
         self.addOutput(spare)
 
+        #Clockwise direction condition
+        if self.shiftDirection == 'C':
+            signDigit = 1
+
+        #Anti-clockwise direction condition
+        elif self.shiftDirection == 'CC':        
+            signDigit = -1        
         fromIndex = (startIndex) % self.numberOfTyres
-        toIndex = (startIndex+self.skipIndex) % self.numberOfTyres
+        toIndex = (startIndex+self.skipIndex * signDigit) % self.numberOfTyres
+        
+
         self.rotateTyre(fromIndex, toIndex, spare, iterationCount)
         self.displayOutput()
 
@@ -46,16 +55,16 @@ class RotateTire:
             #Runs at the beginning of every cycle
             if  self.checkList[fromIndex] == 0:
                 temp = spare
-                spare = self.tireList[fromIndex]
-                self.tireList[fromIndex] = temp
-                print "%s - %s" % (spare, self.tireList)
+                spare = self.tyreList[fromIndex]
+                self.tyreList[fromIndex] = temp
+                print "%s - %s" % (spare, self.tyreList)
                 self.addOutput(spare)
             
             #Executes for every element    
-            temp = self.tireList[toIndex] 
-            self.tireList[toIndex] = spare
+            temp = self.tyreList[toIndex] 
+            self.tyreList[toIndex] = spare
             spare = temp
-            print "%s - %s" % (spare, self.tireList)
+            print "%s - %s" % (spare, self.tyreList)
             self.checkList[toIndex] = 1
             self.addOutput(spare)
      
@@ -79,7 +88,7 @@ class RotateTire:
         #Add state information of tyre rotation
 
         tempList = [spare]
-        tempList.extend(self.tireList)
+        tempList.extend(self.tyreList)
         self.outputList.append(tempList)
         
     def displayOutput(self):
@@ -99,14 +108,21 @@ class RotateTire:
         if tyre == 'S':
             tyre = 'Spare'
         else:
-            tyre = 'Tire#%s' % (tyre)
+            tyre = 'Tyre#%s' % (tyre)
         return tyre
 
 if __name__ == "__main__":
 
-    if ( len(sys.argv) == 4):
-        rotate_obj = RotateTire(int(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
-        rotate_obj.runMain()
+    if (len(sys.argv) == 4):
+        if sys.argv[2] not in ('C', 'CC'):
+            print "Direction is not valid. Please select between C-Clockwise/CC-Counter Clockwise"
+            sys.exit()
 
+        if int(sys.argv[1]) == 0:
+            print "Enter valid number of tyres"
+            sys.exit()
+
+        rotate_obj = RotateTyre(int(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
+        rotate_obj.runMain()
     else:
         print "Please enter all the input parameters - Number of tyres, Direction, Skip number"        
