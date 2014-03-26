@@ -1,67 +1,70 @@
 import sys
 
 class RotateTire:
-    def __init__(self):
-        pass
+    def __init__(self, numberOfTyres, skipDirection, skipIndex):
 
-    def runMain(self, numberOfTires, skipDirection, skipIndex):
+        self.numberOfTyres = numberOfTyres
+        self.skipDirection = skipDirection
+        self.skipIndex = skipIndex
+
+    def runMain(self):
         
         #Variables 
         startIndex = 0 
         spare = 'S'
-        skipIndex = skipIndex + 1
+        self.skipIndex = self.skipIndex + 1
 
         #Lists
-        tireList = range(numberOfTires)
-        checkList = [0] * numberOfTires
+        tireList = range(self.numberOfTyres)
+        checkList = [0] * self.numberOfTyres
         
-        maxIndex = len(tireList)
-
         print "%s - %s" % (spare, tireList)
-        self.rotateTire(startIndex%maxIndex, (startIndex+skipIndex)%maxIndex, spare, tireList, checkList, skipIndex, maxIndex, skipDirection)
-        print "%s - %s" % (spare, tireList)
+        iterationCount = 0 
+        firstIndex = (startIndex) % self.numberOfTyres
+        secondIndex = (startIndex+self.skipIndex) % self.numberOfTyres
+        self.rotateTyre(firstIndex, secondIndex, spare, tireList, checkList, iterationCount)
          
 
-    def rotateTire(self, oneIndex, twoIndex, spare, tireList, checkList, skipIndex, maxIndex, skipDirection):
+    def rotateTyre(self, firstIndex, secondIndex, spare, tireList, checkList, iterationCount):
 
         #End condition
-        if sum(checkList) == maxIndex - 1:
-            for index, value in enumerate(tireList):
-                if value == 'S':
-                    tireList[index] = spare
+        if iterationCount == self.numberOfTyres:
             return
 
-        if  checkList[oneIndex] == 0:
+        if  checkList[firstIndex] == 0:
             temp = spare
-            spare = tireList[oneIndex]
-            tireList[oneIndex] = temp
+            spare = tireList[firstIndex]
+            tireList[firstIndex] = temp
             print "%s - %s" % (spare, tireList)
 
-        temp = tireList[twoIndex] 
-        tireList[twoIndex] = spare
+        temp = tireList[secondIndex] 
+        tireList[secondIndex] = spare
         spare = temp
         print "%s - %s" % (spare, tireList)
-        checkList[twoIndex] = 1
+        checkList[secondIndex] = 1
+
    
         #Clockwise
-        if skipDirection == 'C': 
-            oneIndex = (oneIndex+skipIndex)%maxIndex
-            twoIndex = (twoIndex+skipIndex)%maxIndex
-            if(checkList[twoIndex]) == 1:
-                oneIndex +=1
-                twoIndex +=1  
+        if self.skipDirection == 'C': 
+            firstIndex = (firstIndex+self.skipIndex)%self.numberOfTyres
+            secondIndex = (secondIndex+self.skipIndex)%self.numberOfTyres
+            if(checkList[secondIndex] == 1):
+                firstIndex +=1
+                secondIndex +=1  
+
   
         #Anti clockwise
-        elif skipDirection == 'CC':        
-            oneIndex = (oneIndex-skipIndex)%maxIndex
-            twoIndex = (twoIndex-skipIndex)%maxIndex
-            if(checkList[twoIndex]) == 1:
-                oneIndex -=1
-                twoIndex -=1    
+        elif self.skipDirection == 'CC':        
+            firstIndex = (firstIndex-self.skipIndex)%self.numberOfTyres
+            secondIndex = (secondIndex-self.skipIndex)%self.numberOfTyres
+            if(checkList[secondIndex] == 1):
+                firstIndex -=1
+                secondIndex -=1  
 
-        self.rotateTire(oneIndex, twoIndex, spare, tireList, checkList, skipIndex, maxIndex, skipDirection)
+
+        iterationCount += 1
+        self.rotateTyre(firstIndex, secondIndex, spare, tireList, checkList,  iterationCount)
         
 if __name__ == "__main__":
-    rotate_obj = RotateTire()
-    rotate_obj.runMain(int(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
-    #rotate_obj.runMain(4, 'C', 1)
+    rotate_obj = RotateTire(int(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
+    rotate_obj.runMain()
